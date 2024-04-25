@@ -1,6 +1,7 @@
 package com.list.sorter.service;
 
 import com.list.sorter.exception.WordListAlreadyExistsException;
+import com.list.sorter.exception.WordListNotFoundException;
 import com.list.sorter.model.WordList;
 import com.list.sorter.repository.WordListRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,17 +29,24 @@ public class WordListService implements IWordListService{
 
     @Override
     public WordList updateWordList(WordList wordList, int id) {
-        return null;
+        return wordListRepository.findById(id).map(st -> {
+            st.setItemName(wordList.getItemName());
+            return wordListRepository.save(st);
+        }).orElseThrow(() -> new WordListNotFoundException("Item not found."));
+
     }
 
     @Override
     public WordList getWordListById(int id) {
-        return null;
+        return wordListRepository.findById(id)
+                .orElseThrow(() -> new WordListNotFoundException("Item not found."));
     }
 
     @Override
     public void deleteWordList(int id) {
-
+        if (!wordListRepository.existsById(id)) {
+            throw new WordListNotFoundException("Cannot delete item, item not found.");
+        }
     }
 
     private boolean wordListAlreadyExists(String itemName) {
