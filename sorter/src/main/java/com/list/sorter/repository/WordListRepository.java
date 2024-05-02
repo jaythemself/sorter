@@ -10,7 +10,4 @@ import java.util.Optional;
 public interface WordListRepository extends JpaRepository<WordList, Integer> {
     Optional<WordList> findByItemName(String itemName);
 
-    // Custom query to fetch all words from the database
-    //@Query("SELECT l.listItem FROM List l")
-    //WordList<String> findAllWords();
 }
