@@ -32,7 +32,7 @@ public class WordListService implements IWordListService{
         return wordListRepository.findById(id).map(st -> {
             st.setItemName(wordList.getItemName());
             return wordListRepository.save(st);
-        }).orElseThrow(() -> new WordListNotFoundException("Item not found."));
+        }).orElseThrow(() -> new WordListNotFoundException("Cannot edit item, item not found."));
 
     }
 
